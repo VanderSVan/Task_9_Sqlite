@@ -1,0 +1,38 @@
+Get drivers report
+---
+tags:
+  - Drivers report
+parameters:
+  - name: order
+    in: query
+    required: false
+    type: string
+    description: asc or desc
+  - name: limit
+    in: query
+    required: false
+    type: integer
+    description: any integer
+  - name: offset
+    in: query
+    required: false
+    type: integer
+    description: any integer
+  - name: nulls
+    in: query
+    required: false
+    type: string
+    description: yes or no
+  - name: format
+    in: query
+    required: false
+    type: string
+    description: json or xml
+responses:
+  200:
+    description: A dictionary of driver parameters (may be filtered by parameters)
+    schema:
+      $ref: '#/definitions/drivers_report'
+produces:
+  - application/json
+  - application/xml
