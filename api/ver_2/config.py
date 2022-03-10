@@ -1,4 +1,3 @@
-
 class Configuration:
     DATABASE = {
         'name': 'race_info.db',

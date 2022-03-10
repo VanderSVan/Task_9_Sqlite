@@ -9,15 +9,16 @@ def load_engine_sql(engine_name: str):
     module = all_imported_modules[module_name]
     return getattr(module, sql_name)
 
-d = {
-        'name': 'race_info.db',
-        'engine': 'peewee.SqliteDatabase',
-    }
-hui = load_engine_sql('peewee.SqliteDatabase')
-print(hui)
-new_hui = hui('race_info.db', **d)
-print(new_hui)
-# print(new_hui.name)
+
+# d = {
+#         'name': 'race_info.db',
+#         'engine': 'peewee.SqliteDatabase',
+#     }
+# hui = load_engine_sql('peewee.SqliteDatabase')
+# print(hui)
+# new_hui = hui('race_info.db', **d)
+# print(new_hui)
+# # print(new_hui.name)
 
 
 

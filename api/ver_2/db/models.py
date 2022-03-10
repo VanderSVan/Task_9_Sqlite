@@ -1,5 +1,5 @@
 from peewee import *
-from api.ver_2.init_database import Database
+from init_database import Database
 from api.ver_2.config import Configuration
 
 db = Database(Configuration.DATABASE)

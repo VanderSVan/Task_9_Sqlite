@@ -8,9 +8,9 @@ data_path = os.path.join(project_path, 'data_files')
 
 
 def timeit(func):
-    def wrapper(*args):
+    def wrapper(*args, **kwargs):
         start = dt.now()
-        result = func(*args)
+        result = func(*args, **kwargs)
         print(dt.now() - start)
         return result
 
@@ -56,13 +56,16 @@ def insert_records_to_db(db, tables):
     print('Records has been added in')
 
 
-def create_db(database, tables):
+def create_db(db, tables):
     """Main function"""
-    create_tables(database, tables)
-    insert_records_to_db(database, tables)
+    create_tables(db, tables)
+    insert_records_to_db(db, tables)
     print('*** db has been created ***', '\n')
 
 
 if __name__ == '__main__':
-    create_tables()
-    insert_records_to_db()
+    from models import db as initialized_db, Driver, Team, RaceInfo
+
+    database = initialized_db.database
+    database_tables = [Driver, Team, RaceInfo]
+    create_db(database, database_tables)

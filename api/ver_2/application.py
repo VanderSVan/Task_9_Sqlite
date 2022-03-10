@@ -2,12 +2,13 @@ import os
 from flask import Flask
 from flask_restful import Api
 from flasgger import Swagger
-from api.ver_2.api_ver_2 import api_report_2
-from api.ver_2.api_ver_2 import DriversReport, DriverStats
-from api.ver_2.api_ver_2 import handle_404_error_api
+from api_ver_2 import api_report_2
+from api_ver_2 import DriversReport, DriverStats
+from api_ver_2 import handle_404_error_api
 
 
 def create_app(test_config=False):
+    """Create and configure an instance of the Flask application."""
     app = Flask(__name__)
     app.config.from_object('config.Configuration')
     api = Api(app)
@@ -25,6 +26,6 @@ def create_app(test_config=False):
     return app
 
 
-# if __name__ == "__main__":
-#     create_db(db, database_tables)
-#     application.run()
+if __name__ == "__main__":
+    application = create_app()
+    application.run()

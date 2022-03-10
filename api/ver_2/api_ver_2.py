@@ -3,7 +3,7 @@ import xmltodict as x2d
 from flask import Blueprint, make_response, jsonify
 from flask_restful import Resource, reqparse
 from datetime import datetime, time
-from db.models import Driver, RaceInfo
+from api.ver_2.db.models import Driver, RaceInfo
 
 api_report_2 = Blueprint('api_v2', __name__)
 

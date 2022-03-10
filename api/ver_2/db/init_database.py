@@ -4,13 +4,15 @@ from api.ver_2.utils import load_engine_sql
 
 
 class Database:
-    def __init__(self, database_config, app=None, database=None, database_class=None):
+    def __init__(self, database_config: dict, app=None, database=None, database_class=None):
         self.app = app
         self.database = database
         self.database_config = dict(database_config)
         self.database_class = database_class
         if not self.database:
             self.load_database()
+        if app:
+            self.register_handlers()
         self.Model = self.get_model_class()
 
     def load_database(self):
@@ -26,6 +28,7 @@ class Database:
         class BaseModel(Model):
             class Meta:
                 database = self.database
+
         return BaseModel
 
     def connect_db(self):
