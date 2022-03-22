@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from api_report.models import RaceInfo
+from api_report.db.models import RaceInfo
 from .utils import create_response
 from .query_string_parser import QueryString
 

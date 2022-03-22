@@ -1,7 +1,7 @@
 import os
 import sys
 from datetime import datetime as dt
-from exceptions import ImproperlyConfigured
+from .exceptions import ImproperlyConfigured
 
 
 def load_engine_sql(engine_name: str):
@@ -35,8 +35,8 @@ def timeit(func):
     return wrapper
 
 
-if __name__ == '__main__':
-    from config import Configuration
+# if __name__ == '__main__':
+    # from config import Configuration
     # d = {
     #         'name': 'race_info.db',
     #         'engine': 'peewee.SqliteDatabase',

@@ -11,13 +11,13 @@ class Configuration:
         'name': 'race_info.db',
         'engine': 'peewee.SqliteDatabase',
     }
-    SWAGGER = {
-        'doc_dir': 'api_report/resources/docs/',
-        "specs_route": "/api_report"
-    }
     DATA = {
         'folder_path': os.path.join(project_path, 'data_files')
     }
+    API_URL = "/api/v1"
+    SWAGGER = {
+        'doc_dir': 'api_report/resources/docs/',
+        "specs_route": API_URL
+    }
     DEBUG = True
     TESTING = False
-    API_URL = "/api_report"

@@ -6,8 +6,8 @@ from api_report.resources.driver import DriverInfo
 from api_report.resources.race import RaceReport
 from api_report.resources.handlers import handle_404_error_api
 from config import Configuration
-from api_report.models import db, Driver, Team, RaceInfo
-from api_report.insert_records_to_db import insert_records_to_db
+from api_report.db.models import db, Driver, Team, RaceInfo
+from api_report.db.insert_records_to_db import insert_records_to_db
 
 
 def create_app(test_config=False):
@@ -34,17 +34,13 @@ def create_app(test_config=False):
     @application.before_request
     def connect_db():
         if 'db' not in g:
-            # print(g.get('db'))
             g.db = db
             g.db.connect()
-            print("---open---")
 
     @application.teardown_request
     def close_db(error):
         if 'db' in g:
-            # print(g.db)
             g.db.close()
-            print("---close---")
             if error:
                 print(str(error))
 
