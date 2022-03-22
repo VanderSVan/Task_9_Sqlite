@@ -14,31 +14,31 @@ from collections import OrderedDict
 ])
 class TestDriversJson:
     def test_get_report(self, abbr, result, client):
-        response = client.get('/api/v1/drivers/')
+        response = client.get('/api_report/v1/drivers/')
         assert response.status_code == 200
         assert 'application/json' in response.headers['Content-Type']
         assert dict(json.loads(response.data)).get(abbr) == result
 
     def test_default_order(self, abbr, result, client):
-        response = client.get('/api/v1/drivers/')
+        response = client.get('/api_report/v1/drivers/')
         assert response.status_code == 200
         assert 'application/json' in response.headers['Content-Type']
         assert list(OrderedDict(json.loads(response.data)))[1] == abbr
 
     def test_set_order(self, abbr, result, client):
-        response = client.get('api/v1/drivers/?order=desc')
+        response = client.get('api_report/v1/drivers/?order=desc')
         assert response.status_code == 200
         assert 'application/json' in response.headers['Content-Type']
         assert list(OrderedDict(json.loads(response.data)))[17] == abbr
 
     def test_set_limit(self, abbr, result, client):
-        response = client.get('api/v1/drivers/?limit=2')
+        response = client.get('api_report/v1/drivers/?limit=2')
         assert response.status_code == 200
         assert 'application/json' in response.headers['Content-Type']
         assert dict(json.loads(response.data)).get(abbr) == result
 
     def test_set_offset(self, abbr, result, client):
-        response = client.get('api/v1/drivers/?offset=1')
+        response = client.get('api_report/v1/drivers/?offset=1')
         assert response.status_code == 200
         assert 'application/json' in response.headers['Content-Type']
         assert dict(json.loads(response.data)).get(abbr) == result
@@ -49,7 +49,7 @@ class TestDriversJson:
                  'time': '0:57:12.013000'})
     ])
     def test_set_params(self, new_abbr, result2, abbr, result, client):
-        response = client.get('api/v1/drivers/?params=name,team,time')
+        response = client.get('api_report/v1/drivers/?params=name,team,time')
         assert response.status_code == 200
         assert 'application/json' in response.headers['Content-Type']
         assert OrderedDict(json.loads(response.data)).get(new_abbr) == result2
@@ -65,31 +65,31 @@ class TestDriversJson:
 ])
 class TestDriversXml:
     def test_get_report(self, abbr, result, client):
-        response = client.get('/api/v1/drivers/?format=xml')
+        response = client.get('/api_report/v1/drivers/?format=xml')
         assert response.status_code == 200
         assert 'application/xml' in response.headers['Content-Type']
         assert dict(x2d.parse(response.data)).get('drivers_report').get(abbr) == result
 
     def test_default_order(self, abbr, result, client):
-        response = client.get('/api/v1/drivers/?format=xml')
+        response = client.get('/api_report/v1/drivers/?format=xml')
         assert response.status_code == 200
         assert 'application/xml' in response.headers['Content-Type']
         assert list(OrderedDict(x2d.parse(response.data)).get('drivers_report'))[5] == abbr
 
     def test_set_order(self, abbr, result, client):
-        response = client.get('/api/v1/drivers/?format=xml&order=desc')
+        response = client.get('/api_report/v1/drivers/?format=xml&order=desc')
         assert response.status_code == 200
         assert 'application/xml' in response.headers['Content-Type']
         assert list(OrderedDict(x2d.parse(response.data)).get('drivers_report'))[13] == abbr
 
     def test_set_limit(self, abbr, result, client):
-        response = client.get('api/v1/drivers/?format=xml&limit=6')
+        response = client.get('api_report/v1/drivers/?format=xml&limit=6')
         assert response.status_code == 200
         assert 'application/xml' in response.headers['Content-Type']
         assert dict(x2d.parse(response.data)).get('drivers_report').get(abbr) == result
 
     def test_set_offset(self, abbr, result, client):
-        response = client.get('api/v1/drivers/?format=xml&offset=5')
+        response = client.get('api_report/v1/drivers/?format=xml&offset=5')
         assert response.status_code == 200
         assert 'application/xml' in response.headers['Content-Type']
         assert dict(x2d.parse(response.data)).get('drivers_report').get(abbr) == result
@@ -100,7 +100,7 @@ class TestDriversXml:
                  'time': '1:01:12.639000'})
     ])
     def test_set_params(self, new_abbr, result2, abbr, result, client):
-        response = client.get('api/v1/drivers/?format=xml&params=name,team,time')
+        response = client.get('api_report/v1/drivers/?format=xml&params=name,team,time')
         assert response.status_code == 200
         assert 'application/xml' in response.headers['Content-Type']
         assert dict(x2d.parse(response.data)).get('drivers_report').get(new_abbr) == result2
@@ -116,7 +116,7 @@ class TestDriverStatsJson:
                  'time': '1:01:12.829000'})
     ])
     def test_get_driver(self, abbr, result, client):
-        response = client.get(f'api/v1/drivers/{abbr}/')
+        response = client.get(f'api_report/v1/drivers/{abbr}/')
         assert response.status_code == 200
         assert 'application/json' in response.headers['Content-Type']
         assert OrderedDict(json.loads(response.data)) == result
@@ -127,13 +127,13 @@ class TestDriverStatsJson:
                  'time': '1:01:12.930000'})
     ])
     def test_set_params(self, abbr, result, client):
-        response = client.get(f'api/v1/drivers/{abbr}/?params=name,team,time')
+        response = client.get(f'api_report/v1/drivers/{abbr}/?params=name,team,time')
         assert response.status_code == 200
         assert 'application/json' in response.headers['Content-Type']
         assert OrderedDict(json.loads(response.data)) == result
 
     def test_get_wrong_abbr(self, client):
-        response = client.get('api/v1/drivers/Unknown/')
+        response = client.get('api_report/v1/drivers/Unknown/')
         assert response.status_code == 404
         assert 'application/json' in response.headers['Content-Type']
         assert dict(json.loads(response.data)).get('message') == "Abbreviation 'UNKNOWN' not found"
@@ -149,7 +149,7 @@ class TestDriverStatsXml:
                              ('time', '1:01:12.950000')]))
     ])
     def test_get_driver(self, abbr, result, client):
-        response = client.get(f'api/v1/drivers/{abbr}/?format=xml')
+        response = client.get(f'api_report/v1/drivers/{abbr}/?format=xml')
         assert response.status_code == 200
         assert 'application/xml' in response.headers['Content-Type']
         assert OrderedDict(x2d.parse(response.data)).get(abbr) == result
@@ -160,13 +160,13 @@ class TestDriverStatsXml:
                              ('time', '1:01:13.179000')]))
     ])
     def test_set_params(self, abbr, result, client):
-        response = client.get(f'api/v1/drivers/{abbr}/?format=xml&params=name,team,time')
+        response = client.get(f'api_report/v1/drivers/{abbr}/?format=xml&params=name,team,time')
         assert response.status_code == 200
         assert 'application/xml' in response.headers['Content-Type']
         assert OrderedDict(x2d.parse(response.data)).get(abbr) == result
 
     def test_get_wrong_abbr(self, client):
-        response = client.get('api/v1/drivers/Unknown/?format=xml')
+        response = client.get('api_report/v1/drivers/Unknown/?format=xml')
         assert response.status_code == 404
         assert 'application/json' in response.headers['Content-Type']
         assert dict(json.loads(response.data))['message'] == "Abbreviation 'UNKNOWN' not found"
@@ -174,7 +174,7 @@ class TestDriverStatsXml:
 
 class TestGetWrongFormat:
     def test_get_wrong_format(self, client):
-        response = client.get('api/v1/drivers/?format=Something')
+        response = client.get('api_report/v1/drivers/?format=Something')
         assert response.status_code == 404
         assert 'application/json' in response.headers['Content-Type']
         assert dict(json.loads(response.data)).get('message') == "'Something' format is not supported"
