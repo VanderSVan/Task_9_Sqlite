@@ -4,10 +4,10 @@ info:
   description: 'This is API for generating a race report and driver info.'
   contact:
     email: test@gmail.com
-    url: https://git.foxminded.com.ua/Ivan_Shikhanov/task-8-rest-api
+    url: https://git.foxminded.com.ua/Ivan_Shikhanov/task-8-rest-api_report
   version: '1.0.0'
 host: 127.0.0.1:5000
-basePath: /api/v2
+basePath: /api_report
 schemes: [http, https]
 
 definitions:
