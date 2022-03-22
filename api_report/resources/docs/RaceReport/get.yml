@@ -1,7 +1,7 @@
-Get drivers report
+Get race report
 ---
 tags:
-  - RaceReport report
+  - Race report
 parameters:
   - name: order
     in: query

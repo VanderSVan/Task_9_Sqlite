@@ -8,11 +8,6 @@ parameters:
     required: true
     type: string
     description: e.g. DRR
-  - name: params
-    in: query
-    required: false
-    type: string
-    description: name,team,time,etc...
   - name: format
     in: query
     required: false
@@ -20,7 +15,7 @@ parameters:
     description: json or xml
 responses:
   200:
-    description: A dictionary of driver parameters (may be filtered by parameters)
+    description: A dictionary of driver parameters
     schema:
       $ref: '#/definitions/driver'
 produces:

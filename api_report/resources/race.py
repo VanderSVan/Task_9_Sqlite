@@ -2,7 +2,6 @@ from flask_restful import Resource
 from api_report.models import RaceInfo
 from .utils import create_response
 from .query_string_parser import QueryString
-from flask import g
 
 
 def get_race_info() -> dict:
