@@ -25,7 +25,6 @@ def connect_test_db():
     """Fixture to connect and disconnect database for each test class"""
     test_db.bind(MODELS, bind_refs=False, bind_backrefs=False)
     with test_db:
-        print('---open---')
         # setup
         test_db.drop_tables(MODELS)
         test_db.create_tables(MODELS)
@@ -34,4 +33,3 @@ def connect_test_db():
             data_insert_query.execute()
         yield
         # teardown
-        print('---close---')
