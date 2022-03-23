@@ -20,6 +20,7 @@ format_parser.add_argument('format', type=str, default='json',
 
 
 class QueryString:
+    """This class for quick access to query-string parsed arguments"""
     @staticmethod
     def get_order():
         return order_parser.parse_args().order.lower()

@@ -20,15 +20,19 @@ class DriverEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def create_response(report: dict, output_format):
+def create_response(data: dict, output_format):
     """
+    Create response as xml or json format.
+    :param data: input data as dictionary.
+    :param output_format: json or xml.
+    :return: class 'flask.wrappers.Response'.
     """
     if output_format == 'xml':
-        xml_format = x2d.unparse(report, encoding='UTF-8', pretty=True)
+        xml_format = x2d.unparse(data, encoding='UTF-8', pretty=True)
         response = make_response(xml_format, 200)
         response.mimetype = "application/xml"
     elif output_format == 'json':
-        json_format = json.dumps(report, cls=DriverEncoder,
+        json_format = json.dumps(data, cls=DriverEncoder,
                                  indent='\t', ensure_ascii=False)
         response = make_response(json_format, 200)
         response.mimetype = "application/json"
