@@ -5,29 +5,25 @@ from flasgger import Swagger
 from api_report.resources.driver import DriverInfo
 from api_report.resources.race import RaceReport
 from api_report.resources.handlers import handle_404_error_api
-from config import Configuration
+from api_report.config import Configuration
 from api_report.db.models import db, Driver, Team, RaceInfo
-from api_report.db.insert_records_to_db import insert_records_to_db
+from api_report.db.insert_records import insert_records_to_db
 
 
 def create_app(test_config=False):
     """Create and configure an instance of the Flask application."""
     application = Flask(__name__)
     application.config.from_object(Configuration)
-
-    # Create database
-    database_tables = [Driver, Team, RaceInfo]
-    insert_records_to_db(db, database_tables)
-
     api_report = Api(application)
+    api_url = Configuration.API_URL
     Swagger(
         application,
         template_file=os.path.join('resources/docs', 'template.yml'),
         parse=True
     )
     # Resources
-    api_report.add_resource(RaceReport, f'{Configuration.API_URL}/drivers/')
-    api_report.add_resource(DriverInfo, f'{Configuration.API_URL}/drivers/<string:abbreviation>/')
+    api_report.add_resource(RaceReport, f'{api_url}/drivers/')
+    api_report.add_resource(DriverInfo, f'{api_url}/drivers/<string:abbreviation>/')
     # Handlers
     application.register_error_handler(404, handle_404_error_api)
 
@@ -50,6 +46,10 @@ def create_app(test_config=False):
 
 
 if __name__ == '__main__':
+    # Create database
+    database_tables = [Driver, Team, RaceInfo]
+    insert_records_to_db(db, database_tables)
+    # Create app
     app = create_app()
     app.run()
 

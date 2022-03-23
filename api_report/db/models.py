@@ -1,5 +1,5 @@
 from peewee import *
-from .db_utils import load_database
+from .utils import load_database
 from api_report.config import Configuration
 
 try:
