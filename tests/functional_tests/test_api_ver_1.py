@@ -57,158 +57,6 @@ class TestRaceReportDefault:
         assert list(dict(json.loads(response.data)))[0] == abbr
 
 
-class TestRaceReportExceptions:
-    # Exceptions
-    # order
-    def test_get_wrong_order_default(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/?order=wrong_order')
-        assert response.status_code == 400
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == {
-            "order": "invalid value for 'order' parameter, select 'acs' or 'desc'"
-        }
-
-    def test_get_wrong_order_json(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/?order=wrong_order&format=json')
-        assert response.status_code == 400
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == {
-            "order": "invalid value for 'order' parameter, select 'acs' or 'desc'"
-        }
-
-    def test_get_wrong_order_xml(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/?order=wrong_order&format=xml')
-        assert response.status_code == 400
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == {
-            "order": "invalid value for 'order' parameter, select 'acs' or 'desc'"
-        }
-
-    # limit
-    def test_get_wrong_limit_type_default(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/?limit=abc')
-        assert response.status_code == 400
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == {
-            "limit": "invalid literal for int() with base 10: 'abc'"
-        }
-
-    def test_get_wrong_limit_type_json(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/?format=json&limit=abc')
-        assert response.status_code == 400
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == {
-            "limit": "invalid literal for int() with base 10: 'abc'"
-        }
-
-    def test_get_wrong_limit_type_xml(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/?format=xml&limit=abc')
-        assert response.status_code == 400
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == {
-            "limit": "invalid literal for int() with base 10: 'abc'"
-        }
-
-    # offset
-    def test_get_wrong_offset_type_default(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/?offset=abc')
-        assert response.status_code == 400
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == {
-            "offset": "invalid literal for int() with base 10: 'abc'"
-        }
-
-    def test_get_wrong_offset_type_json(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/?format=json&offset=abc')
-        assert response.status_code == 400
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == {
-            "offset": "invalid literal for int() with base 10: 'abc'"
-        }
-
-    def test_get_wrong_offset_type_xml(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/?format=xml&offset=abc')
-        assert response.status_code == 400
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == {
-            "offset": "invalid literal for int() with base 10: 'abc'"
-        }
-
-    # nulls
-    def test_get_wrong_nulls_type_default(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/?nulls=5')
-        assert response.status_code == 400
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == {
-            "nulls": "invalid value for 'nulls' parameter, select 'yes' or 'no'"
-        }
-
-    def test_get_wrong_nulls_type_json(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/?nulls=5&format=json')
-        assert response.status_code == 400
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == {
-            "nulls": "invalid value for 'nulls' parameter, select 'yes' or 'no'"
-        }
-
-    def test_get_wrong_nulls_type_xml(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/?nulls=5&format=xml')
-        assert response.status_code == 400
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == {
-            "nulls": "invalid value for 'nulls' parameter, select 'yes' or 'no'"
-        }
-
-    # format
-    def test_get_wrong_format(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/?format=bla_bla_bla')
-        assert response.status_code == 404
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == "'bla_bla_bla' format is not supported"
-        assert dict(json.loads(response.data)).get('status') == 404
-
-
-@pytest.mark.parametrize("abbr, result", [param_list_without_nulls[0]])
-class TestDriverInfoDefault:  # scope db connect = 'class'
-    # default
-    def test_get_driver_default(self, abbr, result, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/{abbr}/')
-        assert response.status_code == 200
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get(abbr) == result
-
-
-class TestDriverInfoExceptions:
-    # Exceptions
-    # wrong abbreviation
-    def test_get_wrong_abbr_default(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/Unknown/')
-        assert response.status_code == 404
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == "abbreviation 'Unknown' not found"
-
-    def test_get_wrong_abbr_json(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/Unknown/?format=json')
-        assert response.status_code == 404
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == "abbreviation 'Unknown' not found"
-
-    def test_get_wrong_abbr_xml(self, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/Unknown/?format=xml')
-        assert response.status_code == 404
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == "abbreviation 'Unknown' not found"
-
-    # wrong format
-    @pytest.mark.parametrize("abbr, result", [param_list_without_nulls[0]])
-    def test_get_wrong_format(self, abbr, result, client, connect_test_db):
-        response = client.get(f'{Config.API_URL}/drivers/{abbr}/?format=bla_bla_bla')
-        assert response.status_code == 404
-        assert 'application/json' in response.headers['Content-Type']
-        assert dict(json.loads(response.data)).get('message') == "'bla_bla_bla' format is not supported"
-        assert dict(json.loads(response.data)).get('status') == 404
-
-
 @pytest.mark.parametrize('abbr, result', [param_list_without_nulls[1]])
 class TestRaceReportJson:  # scope db connect = 'class'
     # json
@@ -361,6 +209,127 @@ class TestRaceReportXml:  # scope db connect = 'class'
         assert dict(x2d.parse(response.data)).get('drivers_report').get(new_abbr) is None
 
 
+class TestRaceReportExceptions:
+    # Exceptions
+    # order
+    def test_get_wrong_order_default(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/?order=wrong_order')
+        assert response.status_code == 400
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == {
+            "order": "invalid value for 'order' parameter, select 'acs' or 'desc'"
+        }
+
+    def test_get_wrong_order_json(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/?order=wrong_order&format=json')
+        assert response.status_code == 400
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == {
+            "order": "invalid value for 'order' parameter, select 'acs' or 'desc'"
+        }
+
+    def test_get_wrong_order_xml(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/?order=wrong_order&format=xml')
+        assert response.status_code == 400
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == {
+            "order": "invalid value for 'order' parameter, select 'acs' or 'desc'"
+        }
+
+    # limit
+    def test_get_wrong_limit_type_default(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/?limit=abc')
+        assert response.status_code == 400
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == {
+            "limit": "invalid literal for int() with base 10: 'abc'"
+        }
+
+    def test_get_wrong_limit_type_json(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/?format=json&limit=abc')
+        assert response.status_code == 400
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == {
+            "limit": "invalid literal for int() with base 10: 'abc'"
+        }
+
+    def test_get_wrong_limit_type_xml(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/?format=xml&limit=abc')
+        assert response.status_code == 400
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == {
+            "limit": "invalid literal for int() with base 10: 'abc'"
+        }
+
+    # offset
+    def test_get_wrong_offset_type_default(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/?offset=abc')
+        assert response.status_code == 400
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == {
+            "offset": "invalid literal for int() with base 10: 'abc'"
+        }
+
+    def test_get_wrong_offset_type_json(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/?format=json&offset=abc')
+        assert response.status_code == 400
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == {
+            "offset": "invalid literal for int() with base 10: 'abc'"
+        }
+
+    def test_get_wrong_offset_type_xml(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/?format=xml&offset=abc')
+        assert response.status_code == 400
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == {
+            "offset": "invalid literal for int() with base 10: 'abc'"
+        }
+
+    # nulls
+    def test_get_wrong_nulls_type_default(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/?nulls=5')
+        assert response.status_code == 400
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == {
+            "nulls": "invalid value for 'nulls' parameter, select 'yes' or 'no'"
+        }
+
+    def test_get_wrong_nulls_type_json(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/?nulls=5&format=json')
+        assert response.status_code == 400
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == {
+            "nulls": "invalid value for 'nulls' parameter, select 'yes' or 'no'"
+        }
+
+    def test_get_wrong_nulls_type_xml(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/?nulls=5&format=xml')
+        assert response.status_code == 400
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == {
+            "nulls": "invalid value for 'nulls' parameter, select 'yes' or 'no'"
+        }
+
+    # format
+    def test_get_wrong_format(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/?format=bla_bla_bla')
+        assert response.status_code == 404
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == "'bla_bla_bla' format is not supported"
+        assert dict(json.loads(response.data)).get('status') == 404
+
+
+@pytest.mark.parametrize("abbr, result", [param_list_without_nulls[0]])
+class TestDriverInfoDefault:  # scope db connect = 'class'
+    # default
+    def test_get_driver_default(self, abbr, result, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/{abbr}/')
+        assert response.status_code == 200
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get(abbr) == result
+
+
 @pytest.mark.parametrize("abbr, result", [param_list_without_nulls[0]])
 class TestDriverInfoJson:  # scope db connect = 'class'
     # json
@@ -378,3 +347,35 @@ class TestDriverInfoXml:
         assert response.status_code == 200
         assert 'application/xml' in response.headers['Content-Type']
         assert dict(x2d.parse(response.data)).get('driver').get(abbr) == result
+
+
+class TestDriverInfoExceptions:
+    # Exceptions
+    # wrong abbreviation
+    def test_get_wrong_abbr_default(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/Unknown/')
+        assert response.status_code == 404
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == "abbreviation 'Unknown' not found"
+
+    def test_get_wrong_abbr_json(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/Unknown/?format=json')
+        assert response.status_code == 404
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == "abbreviation 'Unknown' not found"
+
+    def test_get_wrong_abbr_xml(self, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/Unknown/?format=xml')
+        assert response.status_code == 404
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == "abbreviation 'Unknown' not found"
+
+    # wrong format
+    @pytest.mark.parametrize("abbr, result", [param_list_without_nulls[0]])
+    def test_get_wrong_format(self, abbr, result, client, connect_test_db):
+        response = client.get(f'{Config.API_URL}/drivers/{abbr}/?format=bla_bla_bla')
+        assert response.status_code == 404
+        assert 'application/json' in response.headers['Content-Type']
+        assert dict(json.loads(response.data)).get('message') == "'bla_bla_bla' format is not supported"
+        assert dict(json.loads(response.data)).get('status') == 404
+
