@@ -1,7 +1,6 @@
 import pytest
 import json
 import xmltodict as x2d
-from collections import OrderedDict
 from api_report.config import Configuration as Config
 
 param_list_without_nulls = [
@@ -55,7 +54,7 @@ class TestRaceReportDefault:
         response = client.get(f'{Config.API_URL}/drivers/')
         assert response.status_code == 200
         assert 'application/json' in response.headers['Content-Type']
-        assert list(OrderedDict(json.loads(response.data)))[0] == abbr
+        assert list(dict(json.loads(response.data)))[0] == abbr
 
 
 class TestRaceReportExceptions:
@@ -224,13 +223,13 @@ class TestRaceReportJson:  # scope db connect = 'class'
         response = client.get(f'{Config.API_URL}/drivers/?order=asc')
         assert response.status_code == 200
         assert 'application/json' in response.headers['Content-Type']
-        assert list(OrderedDict(json.loads(response.data)))[6] == abbr
+        assert list(dict(json.loads(response.data)))[6] == abbr
 
     def test_set_desc_order(self, abbr, result, client, connect_test_db):
         response = client.get(f'{Config.API_URL}/drivers/?order=desc')
         assert response.status_code == 200
         assert 'application/json' in response.headers['Content-Type']
-        assert list(OrderedDict(json.loads(response.data)))[8] == abbr
+        assert list(dict(json.loads(response.data)))[8] == abbr
 
     # limit
     def test_set_limit(self, abbr, result, client, connect_test_db):
@@ -300,13 +299,13 @@ class TestRaceReportXml:  # scope db connect = 'class'
         response = client.get(f'{Config.API_URL}/drivers/?order=asc&format=xml')
         assert response.status_code == 200
         assert 'application/xml' in response.headers['Content-Type']
-        assert list(OrderedDict(x2d.parse(response.data)).get('drivers_report'))[14] == abbr
+        assert list(dict(x2d.parse(response.data)).get('drivers_report'))[14] == abbr
 
     def test_set_desc_order(self, abbr, result, client, connect_test_db):
         response = client.get(f'{Config.API_URL}/drivers/?format=xml&order=desc')
         assert response.status_code == 200
         assert 'application/xml' in response.headers['Content-Type']
-        assert list(OrderedDict(x2d.parse(response.data)).get('drivers_report'))[0] == abbr
+        assert list(dict(x2d.parse(response.data)).get('drivers_report'))[0] == abbr
 
     # limit
     def test_set_limit(self, abbr, result, client, connect_test_db):
