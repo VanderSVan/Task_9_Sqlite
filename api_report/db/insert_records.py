@@ -9,19 +9,29 @@ folder_data_path = Configuration.DATA['folder_path']
 
 @timeit
 def create_tables(db, tables: list):
+    """Drops existing tables and creates new tables"""
     with db:
         db.drop_tables(tables)
         db.create_tables(tables)
     print('Tables has been created in')
 
 
-def db_data_prepare(test_mode=False, test_mode_limit=None, test_mode_offset=0) -> [list, list, list]:
-    """Get data from files and prepare it for insertion into db"""
+def db_data_prepare(limit=None, offset=0) -> [list, list, list]:
+    """
+    Gets data from files and prepares it for insertion into db.
+    If you want to insert a limited amount of data into the db,
+    you can set 'limit' and 'offset' options.
+    :param limit: limits the amount of data.
+    :param offset: skips data according to offset.
+    :return: list of lists.
+    """
     # convert data files to dict, where the key is the driver's abbreviation
     race_info_dict = create_drivers_dict(folder_data_path)
-    if test_mode:
+    if limit or offset:
+        # Entering to cut mode
         race_list = list(race_info_dict.values())
-        race_report = race_list[test_mode_offset:test_mode_limit]
+        # truncate race_list using slicing method
+        race_report = race_list[offset:(limit if limit is None else limit + offset)]
     else:
         race_report = race_info_dict.values()
     drivers_list = []
@@ -45,7 +55,7 @@ def db_data_prepare(test_mode=False, test_mode_limit=None, test_mode_offset=0) -
 
 @timeit
 def insert_records_to_db(database, tables):
-    """Get prepared data and insert it into db"""
+    """Get prepared data and insert it into db."""
     data_list = db_data_prepare()
     create_tables(database, tables)
     with database.atomic():
@@ -57,4 +67,4 @@ def insert_records_to_db(database, tables):
 
 if __name__ == '__main__':
     from pprint import pp
-    pp(db_data_prepare(test_mode=True, test_mode_limit=10, test_mode_offset=0), indent=2)
+    pp(db_data_prepare(limit=5, offset=5), indent=2)
