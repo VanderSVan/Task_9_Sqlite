@@ -1,0 +1,23 @@
+Get driver info
+---
+tags:
+  - Driver info
+parameters:
+  - name: abbreviation
+    in: path
+    required: true
+    type: string
+    description: e.g. DRR
+  - name: format
+    in: query
+    required: false
+    type: string
+    description: json or xml
+responses:
+  200:
+    description: A dictionary of driver parameters
+    schema:
+      $ref: '#/definitions/driver'
+produces:
+  - application/json
+  - application/xml

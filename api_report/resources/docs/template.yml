@@ -1,0 +1,45 @@
+swagger: '2.0'
+info:
+  title: 'Report of race'
+  description: 'This is API for generating a race report and driver info.'
+  contact:
+    email: shikhanovivan@gmail.com
+    url: https://github.com/VanderSVan/Task_9_Sqlite
+  version: '1.0.0'
+host: 127.0.0.1:5000
+schemes: [http]
+
+definitions:
+  drivers_report:
+    type: object
+    properties:
+      ABBR:
+        type: object
+        properties:
+          abbreviation:
+            type: string
+          driver_name:
+            type: string
+          team_name:
+            type: string
+          start_time:
+            type: datetime
+          end_time:
+            type: datetime
+          result_time:
+            type: datetime
+  driver:
+    type: object
+    properties:
+      abbreviation:
+        type: string
+      driver_name:
+        type: string
+      team_name:
+        type: string
+      start_time:
+        type: datetime
+      end_time:
+        type: datetime
+      result_time:
+        type: datetime
