@@ -1,7 +1,6 @@
 import os
 
 # Project path initialization.
-project_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 current_folder = os.path.dirname(os.path.realpath(__file__))
 
 

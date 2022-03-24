@@ -16,30 +16,30 @@ definitions:
       ABBR:
         type: object
         properties:
-          abbr:
+          abbreviation:
             type: string
-          name:
+          driver_name:
             type: string
-          team:
+          team_name:
             type: string
-          start:
+          start_time:
             type: datetime
-          end:
+          end_time:
             type: datetime
-          time:
+          result_time:
             type: datetime
   driver:
     type: object
     properties:
-      abbr:
+      abbreviation:
         type: string
-      name:
+      driver_name:
         type: string
-      team:
+      team_name:
         type: string
-      start:
+      start_time:
         type: datetime
-      end:
+      end_time:
         type: datetime
-      time:
+      result_time:
         type: datetime
