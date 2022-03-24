@@ -12,7 +12,7 @@ class Configuration:
         'engine': 'peewee.SqliteDatabase',
     }
     DATA = {
-        'folder_path': os.path.join(project_path, 'data_files')
+        'folder_path': os.path.join(current_folder, 'data_files')
     }
     API_URL = "/api/v1"
     SWAGGER = {
