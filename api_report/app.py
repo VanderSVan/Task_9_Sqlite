@@ -46,7 +46,7 @@ def create_app(test_config=False):
 
 
 if __name__ == '__main__':
-    # Create database
+    # Insert data from files to db
     database_tables = [Driver, Team, RaceInfo]
     insert_records_to_db(db, database_tables)
     # Create app
