@@ -1,7 +1,7 @@
 import pytest
 import json
 import xmltodict as x2d
-from src.api_report.config import Configuration as Config
+from api_report.config import Configuration as Config
 
 param_list_without_nulls = [
     ("SVF", {"abbreviation": "SVF",

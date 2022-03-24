@@ -2,12 +2,12 @@ import os
 from flask import Flask, g
 from flask_restful import Api
 from flasgger import Swagger
-from src.api_report.resources.driver import DriverInfo
-from src.api_report.resources.race import RaceReport
-from src.api_report.resources.handlers import handle_404_error_api
-from src.api_report.config import Configuration
-from src.api_report.db.models import db, Driver, Team, RaceInfo
-from src.api_report.db.insert_records import insert_records_to_db
+from api_report.resources.driver import DriverInfo
+from api_report.resources.race import RaceReport
+from api_report.resources.handlers import handle_404_error_api
+from api_report.config import Configuration
+from api_report.db.models import db, Driver, Team, RaceInfo
+from api_report.db.insert_records import insert_records_to_db
 
 
 def create_app(test_config=False):
