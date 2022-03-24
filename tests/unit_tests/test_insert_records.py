@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import patch
 from datetime import datetime as dt
 from datetime import timedelta as td
-from api_report.db.insert_records import db_data_prepare
+from src.api_report.db.insert_records import db_data_prepare
 from reporting.report import Driver
 
 input_params = {'SVF': Driver(abbr='SVF',

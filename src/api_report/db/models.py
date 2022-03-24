@@ -1,6 +1,6 @@
 from peewee import *
 from .utils import load_database
-from api_report.config import Configuration
+from src.api_report.config import Configuration
 
 try:
     database_config = dict(Configuration.DATABASE)

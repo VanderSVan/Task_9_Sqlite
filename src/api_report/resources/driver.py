@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from api_report.db.models import Driver
+from src.api_report.db.models import Driver
 from .utils import create_response
 from .handlers import handle_404_error_api
 from .query_string_parser import QueryString

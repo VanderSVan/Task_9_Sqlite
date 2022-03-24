@@ -1,8 +1,8 @@
 import pytest
 from peewee import SqliteDatabase
-from api_report.app import create_app
-from api_report.db.models import Driver, Team, RaceInfo
-from api_report.db.insert_records import db_data_prepare
+from src.api_report.app import create_app
+from src.api_report.db import Driver, Team, RaceInfo
+from src.api_report.db.insert_records import db_data_prepare
 
 MODELS = [Driver, Team, RaceInfo]
 test_db = SqliteDatabase(':memory:')

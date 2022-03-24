@@ -1,6 +1,6 @@
 from reporting.report import create_drivers_dict
-from api_report.db.utils import timeit
-from api_report.config import Configuration
+from src.api_report.db.utils import timeit
+from src.api_report.config import Configuration
 
 
 # Data path initialization.
