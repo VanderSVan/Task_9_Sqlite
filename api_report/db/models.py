@@ -23,13 +23,6 @@ class Driver(BaseModel):
     @staticmethod
     def get_driver_info(abbr) -> dict or None:
         with db:
-            abbreviation = (fn.Substr(Driver.first_name, 1, 1)
-                            .concat(fn.Substr(Driver.last_name, 1, 1))
-                            .concat(fn.Substr(Team.team_name, 1, 1))
-                            .alias('abbreviation'))
-            driver_name = (Driver.first_name
-                           .concat(" " + Driver.last_name)
-                           .alias('driver_name'))
             try:
                 driver_query = (Driver
                                 .select(abbreviation, driver_name, Team.team_name,
@@ -64,13 +57,6 @@ class RaceInfo(BaseModel):
 
     @staticmethod
     def get_race_info(order='asc', limit=None, offset=0, nulls=True) -> dict:
-        abbreviation = (fn.Substr(Driver.first_name, 1, 1)
-                        .concat(fn.Substr(Driver.last_name, 1, 1))
-                        .concat(fn.Substr(Team.team_name, 1, 1))
-                        .alias('abbreviation'))
-        driver_name = (Driver.first_name
-                       .concat(" " + Driver.last_name)
-                       .alias('driver_name'))
         race_info_query = (RaceInfo
                            .select(abbreviation, driver_name, Team.team_name,
                                    RaceInfo.start_time, RaceInfo.end_time, RaceInfo.result_time)
@@ -86,3 +72,13 @@ class RaceInfo(BaseModel):
 
     class Meta:
         table_name = 'race_info'
+
+
+# extra sqlite functions for database querying
+abbreviation = (fn.Substr(Driver.first_name, 1, 1)
+                .concat(fn.Substr(Driver.last_name, 1, 1))
+                .concat(fn.Substr(Team.team_name, 1, 1))
+                .alias('abbreviation'))
+driver_name = (Driver.first_name
+               .concat(" " + Driver.last_name)
+               .alias('driver_name'))

@@ -34,29 +34,3 @@ def timeit(func):
 
     return wrapper
 
-
-# if __name__ == '__main__':
-    # from config import Configuration
-    # d = {
-    #         'name': 'race_info.db',
-    #         'engine': 'peewee.SqliteDatabase',
-    #     }
-    # hui = load_engine_sql('peewee.SqliteDatabase')
-    # print(hui)
-    # new_hui = hui('race_info.db', **d)
-    # print(new_hui)
-    # # print(new_hui.name)
-
-
-    # # pprint(new_hui.__dict__)
-    # for key, value in new_hui.__dict__.items():
-    #     if value == "race_info.db" or key == 'race_info.db':
-    #         print('k =', key, 'v =', value)
-    #     if value == "SqliteDatabase" or key == 'SqliteDatabase':
-    #         print('k =', key, 'v =', value)
-    #
-    # pprint(new_hui.connect_params)
-
-    config_dict = dict(Configuration.DATABASE)
-    db = load_database(config_dict)
-    print(db)
