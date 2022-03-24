@@ -16,7 +16,7 @@ class BaseModel(Model):
 
 
 class Driver(BaseModel):
-    driver_id = PrimaryKeyField()
+    driver_id = AutoField()
     first_name = CharField()
     last_name = CharField()
 
@@ -43,21 +43,21 @@ class Driver(BaseModel):
                 return None
 
     class Meta:
-        db_table = 'drivers'
+        table_name = 'drivers'
 
 
 class Team(BaseModel):
-    team_id = PrimaryKeyField()
+    team_id = AutoField()
     team_name = TextField(unique=True)
 
     class Meta:
-        db_table = 'teams'
+        table_name = 'teams'
 
 
 class RaceInfo(BaseModel):
-    race_result_id = PrimaryKeyField()
-    driver_id = ForeignKeyField(Driver, to_field='driver_id', lazy_load=False)
-    team_id = ForeignKeyField(Team, to_field='team_id', lazy_load=False)
+    race_result_id = AutoField()
+    driver_id = ForeignKeyField(Driver, field='driver_id', lazy_load=False)
+    team_id = ForeignKeyField(Team, field='team_id', lazy_load=False)
     start_time = DateTimeField()
     end_time = DateTimeField()
     result_time = TimeField(null=True)
@@ -85,4 +85,4 @@ class RaceInfo(BaseModel):
         return race_info_query.dicts()
 
     class Meta:
-        db_table = 'race_info'
+        table_name = 'race_info'

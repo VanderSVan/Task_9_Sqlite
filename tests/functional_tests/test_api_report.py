@@ -378,4 +378,3 @@ class TestDriverInfoExceptions:
         assert 'application/json' in response.headers['Content-Type']
         assert dict(json.loads(response.data)).get('message') == "'bla_bla_bla' format is not supported"
         assert dict(json.loads(response.data)).get('status') == 404
-
